@@ -21,6 +21,15 @@ Connection connection = null;
 Statement statement = null;
 ResultSet resultSet = null;
 %>
+
+<%
+    // Check if the user is logged in
+    if (session.getAttribute("isLoggedIn") == null || !session.getAttribute("isLoggedIn").equals("true")) {
+        // Redirect to login page if not logged in
+        response.sendRedirect("login.html");
+        return; // Stop further processing
+    }
+%>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 

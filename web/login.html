@@ -1,58 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>E-Commerce Cart</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>E-Commerce Cart</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<div class="container">
-		<a class="navbar-brand" href="index.html">E-Commerce Cart</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-	
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-				<li class="nav-item"><a class="nav-link" href="cart.jsp">Cart <span class="badge badge-danger"></span> </a></li>
-				
-				<li class="nav-item"><a class="nav-link" href="order.jsp">Orders</a></li>
-				
-				
-				<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                                <li class="nav-item"><a class="nav-link" href="signup.html">SignUp</a></li>
-				
-			</ul>
-		</div>
-	</div>
-</nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">E-Commerce Cart</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cart.jsp" id="cartLink">Cart <span class="badge badge-danger"></span> </a></li>
+                    <li class="nav-item"><a class="nav-link" href="order.jsp" id="orderLink">Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="signup.html">SignUp</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-	<div class="container">
-		<div class="card w-50 mx-auto my-5">
-			<div class="card-header text-center">User Login</div>
-			<div class="card-body">
-				<form action="login.jsp" method="post">
-					<div class="form-group">
-						<label>Email address</label> 
-						<input type="email" name="t1" class="form-control" placeholder="Enter email">
-					</div>
-					<div class="form-group">
-						<label>Password</label> 
-						<input type="password" name="t2" class="form-control" placeholder="Password">
-					</div>
-					<div class="text-center">
-						<button type="submit" name="Save" class="btn btn-primary">Login</button>                                        
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="card w-50 mx-auto my-5">
+            <div class="card-header text-center">User Login</div>
+            <div class="card-body">
+                <form action="login.jsp" method="post">
+                    <div class="form-group">
+                        <label>Email address</label> 
+                        <input type="email" name="t1" class="form-control" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label> 
+                        <input type="password" name="t2" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" name="Save" class="btn btn-primary">Login</button>                                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-	
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to check if the user is logged in
+            function isLoggedIn() {
+                return sessionStorage.getItem("isLoggedIn") === "true"; // Check sessionStorage for login status
+            }
+
+            // Protect cart and order links
+            const cartLink = document.getElementById("cartLink");
+            const orderLink = document.getElementById("orderLink");
+
+            // Check if Cart link exists and add event listener
+            if (cartLink) {
+                cartLink.addEventListener("click", function (event) {
+                    if (!isLoggedIn()) {
+                        event.preventDefault(); // Prevent navigation
+                        alert("Please log in first!"); // Alert message
+                        window.location.href = "login.html"; // Redirect to login page
+                    }
+                });
+            }
+
+            // Check if Order link exists and add event listener
+            if (orderLink) {
+                orderLink.addEventListener("click", function (event) {
+                    if (!isLoggedIn()) {
+                        event.preventDefault(); // Prevent navigation
+                        alert("Please log in first!"); // Alert message
+                        window.location.href = "login.html"; // Redirect to login page
+                    }
+                });
+            }
+
+            // Simulate login action after successful login
+            document.querySelector("form[action='login.jsp']")?.addEventListener("submit", function () {
+                sessionStorage.setItem("isLoggedIn", "true");
+                window.location.href = "user.html"; // Redirect to user dashboard
+            });
+        });
+    </script>
 </body>
 </html>

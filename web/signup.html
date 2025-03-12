@@ -57,7 +57,56 @@
 			</div>
 		</div>
 	</div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function isLoggedIn() {
+            return sessionStorage.getItem("isLoggedIn") === "true"; // Session-based login (auto logout on tab close)
+        }
 
-	
+        function showLoginPopup(event) {
+            event.preventDefault();
+            alert("Please log in first!"); // Simple popup (replace with modal if needed)
+        }
+
+        // Protect restricted pages (cart, orders)
+        function protectPage() {
+            const restrictedPages = ["cart.jsp", "order.jsp"];
+            const currentPage = window.location.pathname.split("/").pop();
+            if (restrictedPages.includes(currentPage) && !isLoggedIn()) {
+                window.location.href = "login.html"; // Redirect unauthorized users to login page
+            }
+        }
+
+        // Run protection check on page load
+        protectPage();
+
+        // Block cart and orders if not logged in
+        document.querySelectorAll("a[href='cart.jsp'], a[href='order.jsp']").forEach(link => {
+            link.addEventListener("click", function (event) {
+                if (!isLoggedIn()) {
+                    showLoginPopup(event);
+                }
+            });
+        });
+
+        // Handle login action (simulate login)
+        document.querySelector("a[href='login.html']")?.addEventListener("click", function () {
+            sessionStorage.setItem("isLoggedIn", "true");
+        });
+
+        // Handle signup action (simulate login after signup)
+        document.querySelector("a[href='signup.html']")?.addEventListener("click", function () {
+            sessionStorage.setItem("isLoggedIn", "true");
+        });
+
+        // Simulated logout (optional)
+        document.querySelector("a[href='logout.html']")?.addEventListener("click", function () {
+            sessionStorage.removeItem("isLoggedIn");
+        });
+    });
+</script>
+
 </body>
 </html>
